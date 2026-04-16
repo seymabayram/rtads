@@ -1,10 +1,14 @@
 import sqlite3
+import sys
+import os
 from datetime import datetime
 
-DB_PATH = "rtads.db"
+# Add the project root to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+from config.settings import DATABASE_PATH
 
 def init_db():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS readings (
@@ -25,7 +29,7 @@ def init_db():
     conn.close()
 
 def save_reading(data: dict):
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO readings (
@@ -49,7 +53,7 @@ def save_reading(data: dict):
     conn.close()
 
 def get_stats():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM readings")
     total = cursor.fetchone()[0]
@@ -64,7 +68,7 @@ def get_stats():
     }
 
 def get_recent(limit=20):
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         SELECT timestamp, temperature, speed, pressure,
@@ -77,5 +81,5 @@ def get_recent(limit=20):
     conn.close()
     return rows
 
+# Initialize DB when imported
 init_db()
-print("Database ready: rtads.db")
