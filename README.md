@@ -9,7 +9,7 @@
 
 ---
 
-## 🚀 The Problem & Solution
+##  The Problem & Solution
 
 ### The Challenge
 In industrial IoT and network monitoring, individual sensors often produce noisy data. Relying on a single machine learning model can lead to "model bias," where normal fluctuations are flagged as anomalies, or critical failures are missed.
